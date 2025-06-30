@@ -112,3 +112,7 @@ body {
     z-index: +1;
   }
 
+html, body {
+    overflow: hidden;
+}
+
