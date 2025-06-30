@@ -5,13 +5,22 @@ document.addEventListener('DOMContentLoaded' , () => {
 
     let birdLeft = 220
     let birdBottom = 100
-    let gravity = 3
+    let birdVelocity = 0
+    let gravity = 0.25
     let isGameOver = false
-    let gap = 430
+    let gap = 470
+    let jumpStrength = 6
 
 
     function startGame() {
-        birdBottom -= gravity
+        birdVelocity -= gravity
+        birdBottom += birdVelocity
+        if (birdBottom <= 0 && !isGameOver) {
+            birdBottom = 0
+            bird.style.bottom = birdBottom + 'px'
+            gameOver()
+            return
+        }
         bird.style.bottom = birdBottom + 'px'
         bird.style.left = birdLeft + 'px'
     }
@@ -24,9 +33,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     }
 
     function jump() {
-        if (birdBottom < 500) birdBottom += 50
-        bird.style.bottom = birdBottom + 'px'
-        console.log(birdBottom)
+        if (birdBottom < 500) birdVelocity = jumpStrength
     }
     document.addEventListener('keyup', control)
 
