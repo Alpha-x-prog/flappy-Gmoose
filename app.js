@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded' , () => {
     const gameOverContainer = document.getElementById('game-over')
     const finalScoreElement = document.getElementById('final-score')
     const restartBtn = document.getElementById('restart-btn')
+    const startBtn = document.getElementById('start-btn')
+    let gameStarted = false
 
     let birdLeft = 220
     let birdBottom = 100
@@ -15,9 +17,12 @@ document.addEventListener('DOMContentLoaded' , () => {
     let gap = 470
     let jumpStrength = 6
     let score = 0
+    let obstacleTimers = []
+    let gameTimerId = null
 
 
     function startGame() {
+        if (!gameStarted) return
         birdVelocity -= gravity
         birdBottom += birdVelocity
         if (birdBottom <= 0 && !isGameOver) {
@@ -41,7 +46,6 @@ document.addEventListener('DOMContentLoaded' , () => {
         ground.classList.add('ground-moving')
         ground.classList.remove('ground')
     }
-    let gameTimerId = setInterval(startGame, 20)
 
     function control(e) {
         if (e.keyCode === 32) {
@@ -82,6 +86,8 @@ document.addEventListener('DOMContentLoaded' , () => {
                 clearInterval(timerId)
                 gameDisplay.removeChild(obstacle)
                 gameDisplay.removeChild(topObstacle)
+                const index = obstacleTimers.indexOf(timerId)
+                if (index > -1) obstacleTimers.splice(index, 1)
             }
             if (!passed && obstacleLeft + 60 < birdLeft) {
                 score++
@@ -97,10 +103,10 @@ document.addEventListener('DOMContentLoaded' , () => {
                 clearInterval(timerId)
             }
         }
-        let timerId = setInterval(moveObstacle, 20) 
+        let timerId = setInterval(moveObstacle, 20)
+        obstacleTimers.push(timerId)
         if (!isGameOver) setTimeout(generateObstacle, 3000)
     }
-    generateObstacle()
 
     function showGameOver() {
         finalScoreElement.textContent = score
@@ -109,14 +115,45 @@ document.addEventListener('DOMContentLoaded' , () => {
     function hideGameOver() {
         gameOverContainer.style.display = 'none'
     }
-    restartBtn.addEventListener('click', () => {
-        hideGameOver()
-        resetGame()
+    function startGameHandler() {
+        if (gameStarted) return
+        gameStarted = true
+        startBtn.style.display = 'none'
+        birdBottom = 100
+        birdVelocity = 0
+        isGameOver = false
         score = 0
         scoreElement.textContent = score
-        generateObstacle()
-        gameTimerId = setInterval(startGame, 20)
+        bird.style.bottom = birdBottom + 'px'
+        bird.style.left = birdLeft + 'px'
         document.addEventListener('keyup', control)
+        gameTimerId = setInterval(startGame, 20)
+        generateObstacle()
+    }
+    startBtn.addEventListener('click', startGameHandler)
+
+    restartBtn.addEventListener('click', () => {
+        hideGameOver()
+        clearInterval(gameTimerId)
+        obstacleTimers.forEach(timerId => clearInterval(timerId))
+        obstacleTimers = []
+        document.querySelectorAll('.obstacle, .topObstacle').forEach(el => el.remove())
+        
+        birdBottom = 100
+        birdVelocity = 0
+        isGameOver = false
+        gameStarted = false
+        score = 0
+        scoreElement.textContent = score
+        
+        bird.style.bottom = birdBottom + 'px'
+        bird.style.left = birdLeft + 'px'
+        
+        ground.classList.add('ground-moving')
+        ground.classList.remove('ground')
+        
+        startBtn.style.display = 'block'
+        startBtn.textContent = 'Рестарт'
     })
 
     function gameOver() {

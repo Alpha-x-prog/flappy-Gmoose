@@ -116,3 +116,12 @@ html, body {
     overflow: hidden;
 }
 
+.datahaven-logo {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 150px;
+    height: auto;
+    z-index: 2;
+}
+
