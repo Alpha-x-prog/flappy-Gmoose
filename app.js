@@ -58,6 +58,18 @@ document.addEventListener('DOMContentLoaded' , () => {
     }
     document.addEventListener('keyup', control)
 
+    // Для мобильных: прыжок по тапу или клику
+    document.addEventListener('touchstart', function(e) {
+        // Не прыгать, если игра не начата или закончена
+        if (!gameStarted || isGameOver) return;
+        jump();
+        e.preventDefault();
+    }, {passive: false});
+    document.addEventListener('mousedown', function(e) {
+        // Не прыгать, если игра не начата или закончена
+        if (!gameStarted || isGameOver) return;
+        jump();
+    });
 
     function generateObstacle() {
         let obstacleLeft = 500
