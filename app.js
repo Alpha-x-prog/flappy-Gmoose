@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded' , () => {
     let birdVelocity = 0
     let gravity = 0.25
     let isGameOver = false
-    let gap = 470
+    let gap = 450
     let jumpStrength = 6
     let score = 0
     let obstacleTimers = []
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         ground.classList.remove('ground')
         
         startBtn.style.display = 'block'
-        startBtn.textContent = 'Рестарт'
+        startBtn.textContent = 'Restart'
     })
 
     function gameOver() {

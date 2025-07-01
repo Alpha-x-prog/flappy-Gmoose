@@ -138,3 +138,33 @@ html, body {
     gap: 0.3em;
 }
 
+.moose-start-btn {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  font-size: 2em;
+  padding: 0.5em 2em;
+  background: linear-gradient(90deg, #a67c52 0%, #e2b07a 100%);
+  border: 6px solid #7c4f19;
+  border-radius: 18px;
+  box-shadow: 0 4px 0 #7c4f19, 0 8px 16px #0004;
+  color: #3b230c;
+  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 #fff8, 0 2px 0 #7c4f19;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s, box-shadow 0.1s;
+  user-select: none;
+}
+
+.moose-start-btn:active {
+  transform: translate(-50%, -48%) scale(0.98);
+  box-shadow: 0 2px 0 #7c4f19, 0 4px 8px #0004;
+}
+
+/* Optional: pixelated font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
